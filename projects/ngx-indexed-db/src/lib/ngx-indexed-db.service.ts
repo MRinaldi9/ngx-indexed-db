@@ -16,14 +16,18 @@ import { take } from 'rxjs/operators';
 
 @Injectable()
 export class NgxIndexedDBService {
-  private defaultDatabaseName?: string = null;
-  private selectedDb: string;
+  private defaultDatabaseName: string | undefined;
+  private selectedDb: string | undefined;
 
   constructor(
     @Inject(CONFIG_TOKEN) private dbConfigs: Record<string, DBConfig>,
     @Inject(INDEXED_DB) private indexedDB: IDBFactory
   ) {
     Object.values(this.dbConfigs).forEach((dbConfig, _, ref) => this.instanciateConfig(dbConfig, ref.length === 1));
+  }
+
+  private get dbConfig(): DBConfig {
+    return this.dbConfigs[this.selectedDb];
   }
 
   private async instanciateConfig(dbConfig: DBConfig, isOnlyConfig: boolean): Promise<void> {
@@ -63,10 +67,6 @@ export class NgxIndexedDBService {
         this.dbConfigs[dbConfig.name].version = db.version;
       }
     });
-  }
-
-  private get dbConfig(): DBConfig {
-    return this.dbConfigs[this.selectedDb];
   }
 
   /**

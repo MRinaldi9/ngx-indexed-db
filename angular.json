@@ -2,6 +2,13 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "cli": {
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ],
+    "packageManager": "npm"
+  },
   "projects": {
     "ngx-indexed-db": {
       "projectType": "library",
@@ -34,15 +41,13 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngx-indexed-db/tsconfig.lib.json",
-              "projects/ngx-indexed-db/tsconfig.spec.json"
+            "lintFilePatterns": [
+              "projects/ngx-indexed-db/**/*.ts",
+              "projects/ngx-indexed-db/**/*.html"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "eslintConfig": "projects/ngx-indexed-db/eslint.config.js"
           }
         }
       }
@@ -155,16 +160,13 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/playground/tsconfig.app.json",
-              "projects/playground/tsconfig.spec.json",
-              "projects/playground/e2e/tsconfig.json"
+            "lintFilePatterns": [
+              "projects/playground/**/*.ts",
+              "projects/playground/**/*.html"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "eslintConfig": "projects/playground/eslint.config.js"
           }
         },
         "e2e": {
@@ -273,11 +275,18 @@
             ],
             "scripts": []
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ssr-playground/**/*.ts",
+              "projects/ssr-playground/**/*.html"
+            ],
+            "eslintConfig": "projects/ssr-playground/eslint.config.js"
+          }
         }
       }
     }
-  },
-  "cli": {
-    "analytics": false
   }
 }
